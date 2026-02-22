@@ -62,7 +62,7 @@ const theme = createTheme({
     text: { primary: '#37474f', secondary: '#546e7a' }
   },
   typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif",
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     h6: { fontWeight: 600 },
     button: { fontWeight: 600, textTransform: 'none' }
   },
