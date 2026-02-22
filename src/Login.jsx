@@ -35,7 +35,7 @@ function Login({ onLoginSuccess }) {
   // PASSWORD VISIBILITY (LOGIN)
   const [showPassword, setShowPassword] = useState(false);
   
-  // PASSWORD VISIBILITY (RESET) <--- NUEVOS ESTADOS
+  // PASSWORD VISIBILITY (RESET)
   const [showNewPass, setShowNewPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   
@@ -67,7 +67,7 @@ function Login({ onLoginSuccess }) {
       if (resetToken) {
           // --- MODO RESET PASSWORD ---
           if(newPass !== confirmPass) { setError("Las contraseñas no coinciden"); return; }
-          await axios.post('http://localhost:8080/auth/reset-password', { token: resetToken, password: newPass });
+          await axios.post('/auth/reset-password', { token: resetToken, password: newPass });
           setSuccessMsg("Contraseña cambiada con éxito. Ahora inicia sesión.");
           setTimeout(() => {
               window.history.replaceState({}, document.title, "/"); 
@@ -76,14 +76,14 @@ function Login({ onLoginSuccess }) {
 
       } else if (isRegistering) {
         // --- MODO REGISTRO ---
-        await axios.post('http://localhost:8080/auth/register', { username: email, password, nombreCompleto: nombre, dni, telefono, rol: 'PACIENTE' });
+        await axios.post('/auth/register', { username: email, password, nombreCompleto: nombre, dni, telefono, rol: 'PACIENTE' });
         setSuccessMsg("¡Cuenta creada! Por favor, inicia sesión.");
         setIsRegistering(false); 
         setPassword(''); 
         
       } else {
         // --- MODO LOGIN ---
-        const response = await axios.post('http://localhost:8080/auth/login', { username: email, password });
+        const response = await axios.post('/auth/login', { username: email, password });
         onLoginSuccess(response.data.token, response.data.rol);
       }
 
@@ -95,7 +95,7 @@ function Login({ onLoginSuccess }) {
 
   const handleSendForgot = async () => {
       try {
-          await axios.post('http://localhost:8080/auth/forgot-password', { email: forgotEmail });
+          await axios.post('/auth/forgot-password', { email: forgotEmail });
           setOpenForgot(false);
           setSuccessMsg("Si el correo existe, recibirás un enlace para recuperar tu cuenta.");
       } catch (err) {
@@ -118,7 +118,6 @@ function Login({ onLoginSuccess }) {
                 {!successMsg && (
                     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, width: '100%' }}>
                         
-                        {/* NUEVA CONTRASEÑA CON OJITO */}
                         <TextField 
                             margin="normal" fullWidth label="Nueva Contraseña" 
                             type={showNewPass ? "text" : "password"} required 
@@ -134,7 +133,6 @@ function Login({ onLoginSuccess }) {
                             }}
                         />
                         
-                        {/* CONFIRMAR CONTRASEÑA CON OJITO */}
                         <TextField 
                             margin="normal" fullWidth label="Confirmar Contraseña" 
                             type={showConfirmPass ? "text" : "password"} required 

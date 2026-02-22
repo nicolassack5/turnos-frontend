@@ -62,7 +62,7 @@ const theme = createTheme({
     text: { primary: '#37474f', secondary: '#546e7a' }
   },
   typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif",
     h6: { fontWeight: 600 },
     button: { fontWeight: 600, textTransform: 'none' }
   },
@@ -261,7 +261,7 @@ function App() {
     historialParaIA.push({ role: 'user', content: msg });
 
     try {
-        const response = await fetch('http://localhost:8080/chat/preguntar', {
+        const response = await fetch('https://turnos-backend-ns8s.onrender.com/chat/preguntar', {
             method: 'POST', 
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ historial: historialParaIA, contexto: contextoOculto }) 
@@ -462,7 +462,6 @@ function App() {
                         </Button>
                     </Box>
 
-                    {/* 👇 TARJETAS SUPERIORES REDISEÑADAS 👇 */}
                     <Grid container spacing={3} mb={4}>
                       <Grid item xs={12} md={4}>
                         <Card sx={{ bgcolor: 'white', borderRadius: 4, boxShadow: '0 4px 20px rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', p: 2 }}>
@@ -499,7 +498,6 @@ function App() {
                       </Grid>
                     </Grid>
 
-                    {/* 👇 GRÁFICOS REDISEÑADOS PARA QUE NO SE APLASTEN 👇 */}
                     <Grid container spacing={3}>
                       <Grid item xs={12} md={6}>
                         <Paper sx={{ p: 3, borderRadius: 4, boxShadow: '0 4px 20px rgba(0,0,0,0.05)', height: 350 }}>
@@ -535,7 +533,6 @@ function App() {
                   </Box>
                 )}
 
-                {/* --- RESPONSIVE: TABLAS DE ADMIN --- */}
                 {rol === 'ADMIN' && adminTab !== 0 && (
                   <>
                     <TextField fullWidth placeholder="Buscar..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} sx={{ mb: 2 }} size="small" InputProps={{ startAdornment: <SearchIcon sx={{mr:1}}/> }} />
@@ -574,7 +571,6 @@ function App() {
                   </>
                 )}
 
-                {/* --- RESPONSIVE: TABLAS DE MÉDICO --- */}
                 {rol === 'MEDICO' && medicoTab === 0 && (
                   <Stack spacing={4}>
                     <Box>
@@ -660,7 +656,6 @@ function App() {
                    </Paper>
                 )}
 
-                {/* --- RESPONSIVE: TABLAS DE PACIENTE --- */}
                 {rol === 'PACIENTE' && tabValue !== 2 && (
                   <>
                     {isMobile ? (
@@ -693,7 +688,6 @@ function App() {
           </Paper>
         </Container>
 
-        {/* --- MODALES REUTILIZABLES --- */}
         <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth={rol === 'MEDICO' ? 'md' : 'sm'}>
           <DialogTitle sx={{bgcolor:'primary.main', color:'white'}}>
             {rol === 'MEDICO' ? `Historia Clínica - ${form.cliente}` : 'Gestionar Turno'}
@@ -776,7 +770,6 @@ function App() {
           <DialogActions><Button onClick={() => setOpen(false)}>Cancelar</Button><Button variant="contained" onClick={handleGuardarTurno}>Guardar</Button></DialogActions>
         </Dialog>
 
-        {/* MODAL USUARIO ADMIN */}
         <Dialog open={openUser} onClose={() => setOpenUser(false)} fullWidth maxWidth="sm">
             <DialogTitle sx={{ bgcolor: 'secondary.main', color: 'white' }}>Gestionar Usuario</DialogTitle>
             <DialogContent sx={{ pt: 3 }}><Stack spacing={2} sx={{ mt: 1 }}>
@@ -793,7 +786,6 @@ function App() {
             <DialogActions><Button onClick={() => setOpenUser(false)}>Cancelar</Button><Button variant="contained" color="secondary" onClick={handleGuardarUsuario}>Guardar</Button></DialogActions>
         </Dialog>
 
-        {/* MODAL PERFIL ACTUALIZADO CON VISTA AMPLIADA */}
         <Dialog open={openProfile} onClose={() => setOpenProfile(false)} maxWidth="xs" fullWidth>
             <Card>
                 <Box sx={{ bgcolor: 'primary.dark', height: 130, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -839,7 +831,6 @@ function App() {
             </Card>
         </Dialog>
 
-        {/* MODAL PARA VER LA IMAGEN EN GRANDE */}
         <Dialog open={openImageModal} onClose={() => setOpenImageModal(false)} maxWidth="sm" fullWidth>
             <Box sx={{ position: 'relative', bgcolor: '#000', textAlign: 'center' }}>
                 <IconButton onClick={() => setOpenImageModal(false)} sx={{ position: 'absolute', top: 8, right: 8, color: 'white', bgcolor: 'rgba(0,0,0,0.4)', '&:hover': { bgcolor: 'rgba(0,0,0,0.6)' } }}>
@@ -853,7 +844,6 @@ function App() {
             </Box>
         </Dialog>
 
-        {/* MODAL PASSWORD 2FA */}
         <Dialog open={openPassword} onClose={() => setOpenPassword(false)} maxWidth="xs" fullWidth>
             <DialogTitle sx={{ bgcolor: 'secondary.main', color: 'white', textAlign:'center' }}>Seguridad</DialogTitle>
             <DialogContent sx={{ pt: 3 }}>
@@ -869,7 +859,6 @@ function App() {
             </DialogActions>
         </Dialog>
 
-        {/* DIALOG ELIMINAR */}
         <Dialog open={deleteDialog.open} onClose={() => setDeleteDialog({ ...deleteDialog, open: false })}>
             <DialogTitle><WarningIcon color="error"/> Confirmar Eliminación</DialogTitle>
             <DialogContent><DialogContentText>{deleteDialog.text}</DialogContentText></DialogContent>
@@ -878,7 +867,6 @@ function App() {
 
         <Dialog open={openLogout} onClose={() => setOpenLogout(false)}><DialogTitle>¿Cerrar sesión?</DialogTitle><DialogActions><Button onClick={() => setOpenLogout(false)}>No</Button><Button onClick={confirmLogout} color="error" variant="contained">Salir</Button></DialogActions></Dialog>
         
-        {/* --- CHATBOT UI --- */}
         <IconButton 
             onClick={() => setChatOpen(!chatOpen)}
             sx={{ position: 'fixed', bottom: 30, right: isMobile ? 20 : 30, bgcolor: 'primary.main', color: 'white', '&:hover': {bgcolor: 'primary.dark'}, width: 60, height: 60, boxShadow: 3, zIndex: 1000 }}
