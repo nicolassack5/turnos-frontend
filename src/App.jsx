@@ -351,14 +351,14 @@ function App() {
   };
 
   const clickEliminar = (id, type, name) => {
-    setDeleteDialog({ open: true, id, type, text: `¿Estás seguro que deseas eliminar a ${name}?` });
+    setDeleteDialog({ open: true, id, type, text: `¿Estás seguro que deseas cancelar y eliminar ${name}?` });
   };
 
   const confirmarEliminacion = async () => {
     try {
         if (deleteDialog.type === 'USUARIO') await axios.delete(`/usuario/${deleteDialog.id}`);
         else await axios.delete(`/turnos/${deleteDialog.id}`);
-        setNotification("Eliminado.");
+        setNotification("Eliminado con éxito.");
         setDeleteDialog({ ...deleteDialog, open: false });
         cargarDatosCompletos();
     } catch (err) { setError("Error al eliminar."); }
@@ -671,6 +671,8 @@ function App() {
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
                               <IconButton color="secondary" onClick={() => handleDescargarPdf(t.id)}><PictureAsPdfIcon/></IconButton>
                               <IconButton color="primary" onClick={() => abrirModalTurno(t)}><EditIcon/></IconButton>
+                              {/* 👇 BOTÓN DE ELIMINAR AGREGADO EN MÓVIL */}
+                              <IconButton color="error" onClick={() => clickEliminar(t.id, 'TURNO', 'este turno')}><DeleteIcon/></IconButton>
                             </Box>
                           </Card>
                         ))}
@@ -678,7 +680,12 @@ function App() {
                     ) : (
                       <TableContainer component={Paper} variant="outlined">
                         <Table><TableHead sx={{bgcolor:'#f5f5f5'}}><TableRow><TableCell>Fecha/Hora</TableCell><TableCell>Médico</TableCell><TableCell>Motivo</TableCell><TableCell align="center">Acciones</TableCell></TableRow></TableHead>
-                        <TableBody>{getTurnosPaciente().map(t=>(<TableRow key={t.id}><TableCell>{new Date(t.fechaHora).toLocaleString()}</TableCell><TableCell>{t.nombreMedico}</TableCell><TableCell>{t.descripcion}</TableCell><TableCell align="center"><IconButton color="secondary" onClick={() => handleDescargarPdf(t.id)}><PictureAsPdfIcon/></IconButton><IconButton color="primary" onClick={() => abrirModalTurno(t)}><EditIcon/></IconButton></TableCell></TableRow>))}</TableBody></Table>
+                        <TableBody>{getTurnosPaciente().map(t=>(<TableRow key={t.id}><TableCell>{new Date(t.fechaHora).toLocaleString()}</TableCell><TableCell>{t.nombreMedico}</TableCell><TableCell>{t.descripcion}</TableCell><TableCell align="center">
+                              <IconButton color="secondary" onClick={() => handleDescargarPdf(t.id)}><PictureAsPdfIcon/></IconButton>
+                              <IconButton color="primary" onClick={() => abrirModalTurno(t)}><EditIcon/></IconButton>
+                              {/* 👇 BOTÓN DE ELIMINAR AGREGADO EN ESCRITORIO */}
+                              <IconButton color="error" onClick={() => clickEliminar(t.id, 'TURNO', 'este turno')}><DeleteIcon/></IconButton>
+                          </TableCell></TableRow>))}</TableBody></Table>
                       </TableContainer>
                     )}
                   </>
