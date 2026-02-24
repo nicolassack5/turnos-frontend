@@ -912,7 +912,18 @@ function App() {
             </Paper>
         )}
 
-        <Snackbar open={!!notification} autoHideDuration={4000} onClose={() => setNotification(null)} message={notification} />
+        {/* 👇 CARTELES DE ÉXITO Y ERROR PARA EL PACIENTE */}
+        <Snackbar open={!!notification} autoHideDuration={4000} onClose={() => setNotification(null)} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+            <Alert onClose={() => setNotification(null)} severity="success" variant="filled" sx={{ width: '100%' }}>
+                {notification}
+            </Alert>
+        </Snackbar>
+
+        <Snackbar open={!!error} autoHideDuration={4000} onClose={() => setError(null)} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+            <Alert onClose={() => setError(null)} severity="error" variant="filled" sx={{ width: '100%' }}>
+                {error}
+            </Alert>
+        </Snackbar>
       </Box>
     </ThemeProvider>
   );
