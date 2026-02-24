@@ -343,9 +343,9 @@ function App() {
 
   const abrirModalTurno = (turno = null) => {
     if (turno) {
-      setForm({ ...turno, fecha: turno.fechaHora.split('T')[0], hora: turno.fechaHora.split('T')[1].substring(0, 5) });
+      setForm({ ...turno, fecha: turno.fechaHora.split('T')[0], hora: turno.fechaHora.split('T')[1].substring(0, 5), diagnostico: turno.diagnostico || '', asistio: turno.asistio || false });
     } else {
-      setForm({ id: null, especialidad: '', medicoId: '', descripcion: '', fecha: new Date().toISOString().split('T')[0], hora: '', asistio: false });
+      setForm({ id: null, especialidad: '', medicoId: '', descripcion: '', fecha: new Date().toISOString().split('T')[0], hora: '', diagnostico: '', asistio: false });
     }
     setOpen(true);
   };
@@ -669,9 +669,12 @@ function App() {
                             </CardContent>
                             <Divider />
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
-                              <IconButton color="secondary" onClick={() => handleDescargarPdf(t.id)}><PictureAsPdfIcon/></IconButton>
+                              {t.asistio && (
+                                <IconButton color="secondary" onClick={() => handleDescargarPdf(t.id)}>
+                                  <PictureAsPdfIcon/>
+                                </IconButton>
+                              )}
                               <IconButton color="primary" onClick={() => abrirModalTurno(t)}><EditIcon/></IconButton>
-                              {/* 👇 BOTÓN DE ELIMINAR AGREGADO EN MÓVIL */}
                               <IconButton color="error" onClick={() => clickEliminar(t.id, 'TURNO', 'este turno')}><DeleteIcon/></IconButton>
                             </Box>
                           </Card>
@@ -681,9 +684,12 @@ function App() {
                       <TableContainer component={Paper} variant="outlined">
                         <Table><TableHead sx={{bgcolor:'#f5f5f5'}}><TableRow><TableCell>Fecha/Hora</TableCell><TableCell>Médico</TableCell><TableCell>Motivo</TableCell><TableCell align="center">Acciones</TableCell></TableRow></TableHead>
                         <TableBody>{getTurnosPaciente().map(t=>(<TableRow key={t.id}><TableCell>{new Date(t.fechaHora).toLocaleString()}</TableCell><TableCell>{t.nombreMedico}</TableCell><TableCell>{t.descripcion}</TableCell><TableCell align="center">
-                              <IconButton color="secondary" onClick={() => handleDescargarPdf(t.id)}><PictureAsPdfIcon/></IconButton>
+                              {t.asistio && (
+                                <IconButton color="secondary" onClick={() => handleDescargarPdf(t.id)}>
+                                  <PictureAsPdfIcon/>
+                                </IconButton>
+                              )}
                               <IconButton color="primary" onClick={() => abrirModalTurno(t)}><EditIcon/></IconButton>
-                              {/* 👇 BOTÓN DE ELIMINAR AGREGADO EN ESCRITORIO */}
                               <IconButton color="error" onClick={() => clickEliminar(t.id, 'TURNO', 'este turno')}><DeleteIcon/></IconButton>
                           </TableCell></TableRow>))}</TableBody></Table>
                       </TableContainer>
