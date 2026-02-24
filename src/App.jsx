@@ -312,8 +312,11 @@ function App() {
       else await axios.post('/turnos', payload);
       setOpen(false); 
       cargarDatosCompletos();
-      setNotification("Turno guardado.");
-    } catch (error) { setError("Error al guardar."); }
+      setNotification("Turno guardado con éxito.");
+    } catch (err) { 
+      // 👇 Ahora leemos el error real que manda Java
+      setError(typeof err.response?.data === 'string' ? err.response.data : "Error al procesar el turno."); 
+    }
   };
 
   const handleSolicitarCodigo = async () => {
